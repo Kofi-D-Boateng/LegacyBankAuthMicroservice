@@ -1,7 +1,14 @@
 "use strict";
 const bcrypt = require("bcrypt");
 const { _sign, _config } = require("../../utils/jwtConfig");
-const { _login } = require("../../utils/dbQuery");
+const axios = require("axios").default;
+
+const description = {
+  createdBy: "Kofi Boateng",
+  date: "3/19/2022",
+  version: "v1",
+  dest: 8080,
+};
 
 const userLogin = async (req, res) => {
   const CREDENTIALS = {
@@ -16,27 +23,34 @@ const userLogin = async (req, res) => {
     res.status(401);
     return;
   }
-  const DBROW = await _login(CREDENTIALS.email);
-  if (DBROW.rowCount === 0) {
-    res.status(401);
-    return;
-  }
-  const USERPW = DBROW.rows[0]["password"];
-  const EMAIL = DBROW.rows[0]["email"];
-  const FNAME = DBROW.rows[0]["first_name"];
-  const LNAME = DBROW.rows[0]["last_name"];
-  const PWCHECK = await bcrypt.compare(CREDENTIALS.password, USERPW);
-  const TOKEN = await _sign(EMAIL);
-  if (!PWCHECK) {
-    res.status(401);
-    return;
-  }
-  res.status(200).json({
-    token: TOKEN,
-    expiresIn: _config.expiresIn,
-    firstName: FNAME,
-    lastName: LNAME,
-  });
+
+  const fetchData = async (credentials) => {
+    const REQUEST = await axios.post(
+      `http://localhost:${description.dest}/api/${description.version}/authentication/login`,
+      credentials
+    );
+    console.log(REQUEST.data);
+    if (REQUEST.status >= 400 && REQUEST.status <= 599) {
+      return REQUEST.status;
+    }
+    const PWCHECK = await bcrypt.compare(
+      CREDENTIALS.password,
+      REQUEST.data.password
+    );
+    const TOKEN = await _sign(REQUEST.data.email);
+    if (!PWCHECK) {
+      res.status(401);
+      return;
+    }
+    res.status(200).json({
+      token: TOKEN,
+      expiresIn: _config.expiresIn,
+      firstName: REQUEST.data.firstName,
+      lastName: REQUEST.data.lastName,
+      email: REQUEST.data.email,
+    });
+  };
+  fetchData(CREDENTIALS);
 };
 
 module.exports = { userLogin };
