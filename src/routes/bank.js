@@ -1,7 +1,6 @@
 "use-strict";
-var express = require("express");
+const router = require("express").Router();
 const { getBankInfo } = require("../controllers/Bank/BankController");
-var router = express.Router();
 
 router.get("/info", getBankInfo);
 
