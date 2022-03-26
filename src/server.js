@@ -12,6 +12,7 @@ const PORT = 8081;
 // ROUTE DEPENDENCIES
 const AUTH = require("./routes/authentication");
 const BANK = require("./routes/bank");
+const PROFILE = require("./routes/profile");
 
 // WHITELIST
 const WHITELIST = {
@@ -24,7 +25,10 @@ const WHITELIST = {
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", `${WHITELIST.origin}`);
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-  res.header("Access-Control-Allow-Headers", "Content-Type");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, Content-Type, Accept, authorization,x-forwarded-for "
+  );
   next();
 });
 app.use(logger("dev"));
@@ -33,6 +37,7 @@ app.use(express.json());
 // ROUTES
 app.use(`/api/${version}/authentication`, AUTH);
 app.use(`/api/${version}/bank`, BANK);
+app.use(`/api/${version}/profile`, PROFILE);
 
 app.listen(PORT | process.env, (err) => {
   if (!err) console.log(`Port running on port: ${PORT}`);

@@ -48,6 +48,7 @@ const userLogin = async (req, res) => {
     await fetchData(CREDENTIALS);
   } catch (error) {
     console.log(error);
+    res.status(404);
   }
 };
 
