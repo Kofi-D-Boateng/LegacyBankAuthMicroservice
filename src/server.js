@@ -4,7 +4,7 @@ require("dotenv").config();
 const express = require("express");
 const logger = require("morgan");
 const limiter = require("express-rate-limit");
-const { version } = require("./config/configurations");
+const { version, purpose } = require("./config/configurations");
 
 const app = express();
 const PORT = 8081;
@@ -12,7 +12,6 @@ const PORT = 8081;
 // ROUTE DEPENDENCIES
 const AUTH = require("./routes/authentication");
 const BANK = require("./routes/bank");
-const PROFILE = require("./routes/profile");
 
 // WHITELIST
 const WHITELIST = {
@@ -27,7 +26,7 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
   res.header(
     "Access-Control-Allow-Headers",
-    "Origin, Content-Type, Accept, authorization,x-forwarded-for "
+    "Origin, Content-Type, Accept, authorization,x-forwarded-for, User-Agent"
   );
   next();
 });
@@ -35,10 +34,8 @@ app.use(logger("dev"));
 app.use(express.json());
 
 // ROUTES
-app.use(`/api/${version}/authentication`, AUTH);
-app.use(`/api/${version}/bank`, BANK);
-app.use(`/api/${version}/profile`, PROFILE);
-
+app.use(`/api/${version}/${purpose[0]}`, AUTH);
+app.use(`/api/${version}/${purpose[1]}`, BANK);
 app.listen(PORT | process.env, (err) => {
   if (!err) console.log(`Port running on port: ${PORT}`);
 });

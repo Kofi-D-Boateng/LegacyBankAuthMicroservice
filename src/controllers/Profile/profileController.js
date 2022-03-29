@@ -4,9 +4,8 @@ const { _verify } = require("../../utils/jwtConfig");
 const axios = require("axios").default;
 
 const userInfo = async (req, res) => {
-  const TOKEN = req.get("authorization");
-  console.log(TOKEN);
-  const ORIGIN = req.get("Origin");
+  const TOKEN = await req.get("authorization");
+  const ORIGIN = await req.get("Origin");
   const IP = req.socket.remoteAddress;
   if (typeof TOKEN !== "string" || !TOKEN) {
     res.status(401);
@@ -15,6 +14,7 @@ const userInfo = async (req, res) => {
   const CHECK = await _verify(TOKEN);
   if (!CHECK) {
     res.status(401);
+    return;
   }
   if (!CHECK) {
     res.status(401);

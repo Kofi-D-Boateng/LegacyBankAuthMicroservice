@@ -3,7 +3,7 @@ const axios = require("axios").default;
 const { version, dest } = require("../../config/configurations");
 const { _verify } = require("../../utils/jwtConfig");
 const getBankInfo = async (req, res) => {
-  const TOKEN = req.header("authorization");
+  console.log("INSIDE");
   if (!TOKEN) {
     res.status(401);
     return;

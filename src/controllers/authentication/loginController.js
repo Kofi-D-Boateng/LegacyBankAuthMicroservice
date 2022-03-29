@@ -5,12 +5,16 @@ const { version, dest } = require("../../config/configurations");
 const axios = require("axios").default;
 
 const userLogin = async (req, res) => {
+  const USERAGENT = await req.get("User-Agent");
+
   const CREDENTIALS = {
-    email: req.body.email,
-    password: req.body.password,
+    email: req.body.email ? req.body.email : undefined,
+    password: req.body.password ? req.body.password : undefined,
   };
 
   if (
+    CREDENTIALS.email === undefined ||
+    CREDENTIALS.password === undefined ||
     CREDENTIALS.email.trim().length === 0 ||
     CREDENTIALS.password.trim().length === 0
   ) {
