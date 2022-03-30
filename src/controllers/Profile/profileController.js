@@ -12,12 +12,10 @@ const userInfo = async (req, res) => {
     return;
   }
   const CHECK = await _verify(TOKEN);
+
   if (!CHECK) {
-    res.status(401);
-    return;
-  }
-  if (!CHECK) {
-    res.status(401);
+    console.log(CHECK);
+    res.status(401).json("invalid");
     return;
   }
   try {

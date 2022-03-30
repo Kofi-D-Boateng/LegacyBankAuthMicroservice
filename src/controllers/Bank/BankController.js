@@ -18,9 +18,18 @@ const getBankInfo = async (req, res) => {
       `http://localhost:${dest}/api/${version}/bank/info`
     );
 
+    const BANK = {
+      name: fetchInfo.data.name,
+      country: fetchInfo.data.country,
+      state: fetchInfo.data.state,
+      zipcode: fetchInfo.data.zipcode,
+      totalHoldings: fetchInfo.data.totalHoldings,
+      branches: fetchInfo.data.branches,
+    };
     console.log(fetchInfo.data);
-    res.json(fetchInfo.data);
+    res.status(200).json(BANK);
   } catch (error) {
+    res.status(404);
     console.log(error);
   }
 };

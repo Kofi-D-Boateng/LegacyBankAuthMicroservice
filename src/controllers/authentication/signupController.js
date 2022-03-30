@@ -13,7 +13,7 @@ const userSignup = async (req, res) => {
     state: req.body.state,
     zipcode: req.body.zipcode,
     socialSecurity: req.body.socialSecurity,
-    capital: 0,
+    phoneNumber: parseInt(req.body.phoneNumber),
   };
   console.log(PARAMS);
 
