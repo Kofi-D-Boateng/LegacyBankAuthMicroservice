@@ -1,7 +1,7 @@
 "use strict";
 const bcrypt = require("bcrypt");
-const { _sign, _config } = require("../../utils/jwtConfig");
-const { version, dest } = require("../../config/configurations");
+const { _sign } = require("../../utils/jwtConfig");
+const { _config, description } = require("../../config/configurations");
 const axios = require("axios").default;
 
 const userLogin = async (req, res) => {
@@ -24,7 +24,7 @@ const userLogin = async (req, res) => {
 
   const fetchData = async (credentials) => {
     const REQUEST = await axios.post(
-      `http://localhost:${dest}/api/${version}/authentication/login`,
+      `http://localhost:${description.dest}/api/${description.version}/authentication/login`,
       credentials
     );
     console.log(REQUEST.data);

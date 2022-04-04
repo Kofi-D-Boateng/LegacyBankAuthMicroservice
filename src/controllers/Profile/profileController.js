@@ -1,5 +1,5 @@
 "use strict";
-const { version, dest } = require("../../config/configurations");
+const { description } = require("../../config/configurations");
 const { _verify } = require("../../utils/jwtConfig");
 const axios = require("axios").default;
 
@@ -12,7 +12,6 @@ const userInfo = async (req, res) => {
     return;
   }
   const CHECK = await _verify(TOKEN);
-
   if (!CHECK) {
     console.log(CHECK);
     res.status(401).json("invalid");
@@ -21,7 +20,7 @@ const userInfo = async (req, res) => {
   try {
     console.log(CHECK.user);
     const fetchInfo = await axios.get(
-      `http://localhost:${dest}/api/${version}/customer/profile`,
+      `http://localhost:${description.dest}/api/${description.version}/customer/profile`,
       { params: { username: CHECK.user } }
     );
     const USER = fetchInfo.data;
@@ -37,7 +36,7 @@ const userInfo = async (req, res) => {
       state: USER.state,
       accountNum: USER.accountNumber,
       routingNum: USER.routingNumber,
-      funds: USER.capital,
+      funds: parseFloat(USER.capital.toFixed(2)),
       transactions: USER.transactions,
       zipCode: USER.zipcode,
     });

@@ -1,5 +1,5 @@
 "use strict";
-const { version, dest } = require("../../config/configurations");
+const { description } = require("../../config/configurations");
 const { _verify } = require("../../utils/jwtConfig");
 const axios = require("axios").default;
 
@@ -9,12 +9,14 @@ const authenticateTransaction = async (req, res) => {
   const ORIGIN = await req.get("Origin");
   const USERAGENT = await req.get("User-Agent");
   const IP = req.socket.remoteAddress;
-  const PC = USERAGENT.match(/Macintosh|Windows|Linux|X11|/i);
-  const ACCEPTED = "Transaction was approved.";
-  const DECLINED = "Transaction was declined.";
+  const PC = await USERAGENT.match(/Macintosh|Windows|Linux|X11|/i);
   const CHECK = await _verify(TOKEN);
-
+  console.log(USERAGENT);
   const TRANSACTION = {
+    accountNumber:
+      req.body.accountNumber && typeof req.body.accountNumber === "string"
+        ? req.body.accountNumber
+        : undefined,
     cardNumber:
       req.body.cardNumber && typeof req.body.cardNumber === "number"
         ? req.body.cardNumber
@@ -23,71 +25,64 @@ const authenticateTransaction = async (req, res) => {
       req.body.cvc && typeof req.body.cvc === "number"
         ? req.body.cvc
         : undefined,
+    emailOfTransferee:
+      req.body.email && typeof req.body.email === "string"
+        ? req.body.email
+        : undefined,
     location:
       typeof req.body.location === "string"
         ? req.body.location
         : req.body.location.toString(),
-    dateOfTransaction:
-      typeof req.body.dateOfTransaction === "string" &&
-      ds.toISOString(req.body.dateOfTransaction),
+    dateOfTransaction: ds.toISOString(),
     amount:
       typeof req.body.amount === "string"
-        ? parseFloat(req.body.amount)
+        ? parseFloat(req.body.amount.toFixed(2))
         : req.body.amount,
     type: req.body.type,
   };
-
-  if (!PC || USERAGENT.match(/Postman/i)) {
-    console.log("MADE IT WITH POSTMAN");
-    if (TRANSACTION.location.trim().length === 5) {
-      console.log("ATM TIME!!!");
-      const ATM = await axios.post(
-        `http://localhost:${dest}/api/${version}/secure/transaction/atm-transaction`,
-        TRANSACTION
-      );
-      if (ATM.data == ACCEPTED || ATM.data == DECLINED) {
-        res.json(ATM.data);
-        return;
-      } else {
-        console.log(ATM.data["message"]);
+  console.log(TRANSACTION);
+  try {
+    if (!PC || USERAGENT.match(/Postman/i)) {
+      console.log("MADE IT WITH POSTMAN");
+      if (TRANSACTION.location.trim().length === 5) {
+        console.log("ATM TIME!!!");
+        const ATM = await axios.post(
+          `http://localhost:${description.dest}/api/${description.version}/secure/transaction/atm-transaction`,
+          TRANSACTION
+        );
+        res.status(200).json(ATM.data);
         return;
       }
+
+      const vendorTransfer = await axios.post(
+        `http://localhost:${description.dest}/api/${description.version}/secure/transaction/vendor-transfer`,
+        TRANSACTION
+      );
+
+      return res.status(200).json(vendorTransfer.data);
     }
 
-    const accountTransfer = await axios.post(
-      `http://localhost:${dest}/api/${version}/secure/transaction/vendor-transfer`,
-      TRANSACTION
-    );
-    if (
-      accountTransfer.data === DECLINED ||
-      accountTransfer.data === ACCEPTED
-    ) {
-      return userTransfer;
-    } else {
-      console.log(accountTransfer.data);
-      return;
+    if (PC || ORIGIN === "localhost:3000" || USERAGENT.match(/Postman/i)) {
+      console.log("MADE IT!");
+      if (typeof TOKEN !== "string" || !TOKEN) {
+        res.status(401);
+        return;
+      }
+      if (!CHECK) {
+        res.status(401);
+        return;
+      }
+      console.log("MADE IT x2");
+      const userTransfer = await axios.post(
+        `http://localhost:${description.dest}/api/${description.version}/secure/transaction/account-transfer`,
+        TRANSACTION
+      );
+      console.log("MADE IT AGAIN");
+      return res.status(200).json(userTransfer.data);
     }
-  }
-
-  if (PC || ORIGIN === "localhost:3000" || USERAGENT.match(/Postman/i)) {
-    if (typeof TOKEN !== "string" || !TOKEN) {
-      res.status(401);
-      return;
-    }
-    if (!CHECK) {
-      res.status(401);
-      return;
-    }
-    const userTransfer = await axios.post(
-      `http://localhost:${dest}/api/${version}/secure/transaction/account-transfer`,
-      TRANSACTION
-    );
-    if (userTransfer.data === DECLINED || userTransfer.data === ACCEPTED) {
-      return userTransfer;
-    } else {
-      console.log(userTransfer.data);
-      return;
-    }
+  } catch (error) {
+    console.log(error);
+    res.status(400);
   }
 };
 

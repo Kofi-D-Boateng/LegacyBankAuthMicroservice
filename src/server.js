@@ -4,7 +4,7 @@ require("dotenv").config();
 const express = require("express");
 const logger = require("morgan");
 const limiter = require("express-rate-limit");
-const { version, purpose } = require("./config/configurations");
+const { description } = require("./config/configurations");
 
 const app = express();
 const PORT = 8081;
@@ -34,8 +34,8 @@ app.use(logger("dev"));
 app.use(express.json());
 
 // ROUTES
-app.use(`/api/${version}/${purpose[0]}`, AUTH);
-app.use(`/api/${version}/${purpose[1]}`, BANK);
+app.use(`/api/${description.version}/${description.purpose[0]}`, AUTH);
+app.use(`/api/${description.version}/${description.purpose[1]}`, BANK);
 app.listen(PORT | process.env, (err) => {
   if (!err) console.log(`Port running on port: ${PORT}`);
 });
