@@ -29,16 +29,10 @@ const authenticateTransaction = async (req, res) => {
       req.body.email && typeof req.body.email === "string"
         ? req.body.email
         : undefined,
-    location:
-      typeof req.body.location === "string"
-        ? req.body.location
-        : req.body.location.toString(),
     dateOfTransaction: ds.toISOString(),
-    amount:
-      typeof req.body.amount === "string"
-        ? parseFloat(req.body.amount.toFixed(2))
-        : req.body.amount,
+    amount: req.body.amount,
     type: req.body.type,
+    phoneNumberOfTransferee: req.body.phoneNumber,
   };
   console.log(TRANSACTION);
   try {
