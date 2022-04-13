@@ -2,8 +2,6 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config;
 const { _config } = require("../config/configurations");
-const currentDate = new Date().getTime();
-console.log(currentDate);
 
 const _sign = async (email) => {
   const PAYLOAD = {
@@ -21,7 +19,6 @@ const _verify = async (token) => {
     const TOKENCHECK = jwt.verify(token, _config.secret, {
       algorithms: _config.algorithm,
     });
-    console.log(TOKENCHECK.exp > currentDate + 5000);
     return TOKENCHECK;
   } catch (e) {
     console.log("ERROR: " + e.message);

@@ -12,7 +12,7 @@ const _config = {
   algorithm: "HS256",
   secret: "LegacyBank" + crypto.randomBytes(16).toString("base64"),
   iss: "Legacy Bank",
-  expiresIn: 5000,
+  expiresIn: "1hr",
 };
 
 module.exports = { description, _config };

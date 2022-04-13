@@ -1,21 +1,10 @@
 "use strict";
 const axios = require("axios").default;
-const { version, dest } = require("../../config/configurations");
-const { _verify } = require("../../utils/jwtConfig");
+const { description } = require("../../config/configurations");
 const getBankInfo = async (req, res) => {
-  console.log("INSIDE");
-  if (!TOKEN) {
-    res.status(401);
-    return;
-  }
-  const CHECK = await _verify(TOKEN);
-  if (!CHECK) {
-    res.status(401);
-    return;
-  }
   try {
     const fetchInfo = await axios.get(
-      `http://localhost:${dest}/api/${version}/bank/info`
+      `http://localhost:${description.dest}/api/${description.version}/bank/info`
     );
 
     const BANK = {
