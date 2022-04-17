@@ -19,6 +19,7 @@ const _verify = async (token) => {
     const TOKENCHECK = jwt.verify(token, _config.secret, {
       algorithms: _config.algorithm,
     });
+    console.log(TOKENCHECK);
     return TOKENCHECK;
   } catch (e) {
     console.log("ERROR: " + e.message);

@@ -24,9 +24,9 @@ const userInfo = async (req, res) => {
       { params: { username: CHECK.user } }
     );
     const USER = fetchInfo.data;
-    if (USER.customerRole !== "USER" || !USER.enabled || USER.locked) {
-      console.log("CHECK CONDITIONING");
+    if (USER.customerRole !== "USER") {
       res.status(401);
+      return;
     }
     res.status(200).json({
       fName: USER.firstName,
@@ -39,9 +39,13 @@ const userInfo = async (req, res) => {
       funds: parseFloat(USER.capital.toFixed(2)),
       transactions: USER.transactions,
       zipCode: USER.zipcode,
+      isLocked: USER.locked,
+      isEnabled: USER.enabled,
     });
   } catch (error) {
-    res.status(404);
+    res.status(401).json({
+      isAuthorized: false,
+    });
     console.log(error);
   }
 };
