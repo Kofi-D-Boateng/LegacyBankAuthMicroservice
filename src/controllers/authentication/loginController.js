@@ -27,19 +27,16 @@ const userLogin = async (req, res) => {
       `http://localhost:${description.dest}/api/${description.version}/authentication/login`,
       credentials
     );
-    console.log(REQUEST.data);
-    if (REQUEST.status >= 400 && REQUEST.status <= 599) {
-      return REQUEST.status;
-    }
+
     const PWCHECK = await bcrypt.compare(
       CREDENTIALS.password,
       REQUEST.data.password
     );
-    const TOKEN = await _sign(REQUEST.data.email);
     if (!PWCHECK) {
       res.status(401);
       return;
     }
+    const TOKEN = await _sign(REQUEST.data.email);
     res.status(200).json({
       token: TOKEN,
       expiresIn: _config.expiresIn,
@@ -52,7 +49,7 @@ const userLogin = async (req, res) => {
     await fetchData(CREDENTIALS);
   } catch (error) {
     console.log(error);
-    res.status(404);
+    res.status(401);
   }
 };
 
