@@ -1,6 +1,7 @@
 "use strict";
 const axios = require("axios").default;
-const { version, dest } = require("../../config/configurations");
+const { DatabaseError } = require("pg/lib");
+const { description } = require("../../config/configurations");
 
 const userSignup = async (req, res) => {
   const PARAMS = {
@@ -15,20 +16,39 @@ const userSignup = async (req, res) => {
     socialSecurity: req.body.socialSecurity,
     phoneNumber: parseInt(req.body.phoneNumber),
   };
-  console.log(PARAMS);
 
   const fetchRegistration = async (params) => {
     const REQUEST = await axios.post(
-      `http://localhost:${dest}/api/${version}/authentication/registration`,
+      `http://localhost:${description.dest}/api/${description.version}/authentication/registration`,
       params
     );
-    res.status(200).json({ isSaved: REQUEST.data ? true : false });
+    const TOKEN = REQUEST.data;
+    if (TOKEN && typeof TOKEN === "string") {
+      await axios.post(`http://localhost:5500/verification/send-email`, {
+        token: TOKEN,
+        person: {
+          name: PARAMS.firstName + " " + PARAMS.lastName,
+          email: PARAMS.email,
+        },
+      });
+      res.status(200).json({ isSaved: true });
+    }
   };
   try {
     await fetchRegistration(PARAMS);
   } catch (error) {
-    console.log(error);
+    const ERRORMSG = error.response.data["message"];
+    if (ERRORMSG.includes("is taken")) {
+      res.status(401).json(ERRORMSG);
+    }
+
+    res.status(400);
   }
 };
 
-module.exports = { userSignup };
+const getConfirmationToken = async (req, res) => {
+  const TOKEN = req.params["token"];
+  console.log(TOKEN);
+};
+
+module.exports = { userSignup, getConfirmationToken };

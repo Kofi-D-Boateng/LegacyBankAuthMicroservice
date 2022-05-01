@@ -15,7 +15,7 @@ const BANK = require("./routes/bank");
 
 // WHITELIST
 const WHITELIST = {
-  origin: "http://localhost:3000",
+  origin: "*" || process.env.ORIGINS,
   credentials: true,
   optionSuccessStatus: 200,
 };

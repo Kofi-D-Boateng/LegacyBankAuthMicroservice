@@ -1,3 +1,4 @@
+"use-strict";
 const crypto = require("crypto");
 
 // UPDATE URI @ 4/21/2022 by Kofi Boateng
