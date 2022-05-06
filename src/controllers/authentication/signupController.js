@@ -19,7 +19,7 @@ const userSignup = async (req, res) => {
 
   const fetchRegistration = async (params) => {
     const REQUEST = await axios.post(
-      `http://localhost:${description.dest}/api/${description.version}/authentication/registration`,
+      `http://localhost:${description.dest[0]}/api/${description.version}/authentication/registration`,
       params
     );
     const TOKEN = REQUEST.data;

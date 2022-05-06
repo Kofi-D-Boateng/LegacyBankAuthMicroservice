@@ -7,7 +7,7 @@ const description = {
   date: "4/21/2022",
   domain: "http://localhost",
   version: "v1",
-  dest: 8080,
+  dest: [8080, 5500],
   purpose: ["authentication", "bank"],
 };
 

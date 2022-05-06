@@ -24,7 +24,7 @@ const userLogin = async (req, res) => {
 
   const fetchData = async (credentials) => {
     const REQUEST = await axios.post(
-      `http://localhost:${description.dest}/api/${description.version}/authentication/login`,
+      `http://localhost:${description.dest[0]}/api/${description.version}/authentication/login`,
       credentials
     );
 

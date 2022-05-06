@@ -4,7 +4,7 @@ const { description } = require("../../config/configurations");
 const getBankInfo = async (req, res) => {
   try {
     const fetchInfo = await axios.get(
-      `http://localhost:${description.dest}/api/${description.version}/bank/info`
+      `http://localhost:${description.dest[0]}/api/${description.version}/bank/info`
     );
 
     const BANK = {

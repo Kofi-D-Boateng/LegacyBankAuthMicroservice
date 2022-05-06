@@ -20,7 +20,7 @@ const configureSecurity = async (req, res) => {
   }
   const fetchSecurity = async (SECURITY) => {
     const fetch = await axios.post(
-      `${description.domain}:${description.dest}/api/${description.version}/customer/security`,
+      `${description.domain}:${description.dest[0]}/api/${description.version}/customer/security`,
       SECURITY
     );
     console.log(fetch.status);

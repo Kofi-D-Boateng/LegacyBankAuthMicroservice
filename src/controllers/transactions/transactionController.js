@@ -11,7 +11,6 @@ const authenticateTransaction = async (req, res) => {
   const IP = req.socket.remoteAddress;
   const PC = await USERAGENT.match(/Macintosh|Windows|Linux|X11|/i);
   const CHECK = await _verify(TOKEN);
-  console.log(USERAGENT);
   const TRANSACTION = {
     accountNumber:
       req.body.accountNumber && typeof req.body.accountNumber === "string"
@@ -36,12 +35,15 @@ const authenticateTransaction = async (req, res) => {
   };
   console.log(TRANSACTION);
   try {
+    if (!CHECK) {
+      res.status(401).json("");
+    }
     if (!PC || USERAGENT.match(/Postman/i)) {
       console.log("MADE IT WITH POSTMAN");
       if (TRANSACTION.location.trim().length === 5) {
         console.log("ATM TIME!!!");
         const ATM = await axios.post(
-          `http://localhost:${description.dest}/api/${description.version}/secure/transaction/atm-transaction`,
+          `http://localhost:${description.dest[0]}/api/${description.version}/secure/transaction/atm-transaction`,
           TRANSACTION
         );
         res.status(200).json(ATM.data);
@@ -49,7 +51,7 @@ const authenticateTransaction = async (req, res) => {
       }
 
       const vendorTransfer = await axios.post(
-        `http://localhost:${description.dest}/api/${description.version}/secure/transaction/vendor-transfer`,
+        `http://localhost:${description.dest[0]}/api/${description.version}/secure/transaction/vendor-transfer`,
         TRANSACTION
       );
 
@@ -68,11 +70,16 @@ const authenticateTransaction = async (req, res) => {
       }
       console.log("MADE IT x2");
       const userTransfer = await axios.post(
-        `http://localhost:${description.dest}/api/${description.version}/secure/transaction/account-transfer`,
+        `http://localhost:${description.dest[0]}/api/${description.version}/secure/transaction/account-transfer`,
         TRANSACTION
       );
-      console.log("MADE IT AGAIN");
-      return res.status(200).json(userTransfer.data);
+      console.log(userTransfer.data);
+
+      const setNotification = await axios.post(
+        `http://localhost:${description.dest[1]}/user/notifications/set-notifications`,
+        userTransfer.data
+      );
+      res.status(200).json(setNotification.data);
     }
   } catch (error) {
     console.log(error);
