@@ -13,6 +13,9 @@ const {
 const {
   authenticateTransaction,
 } = require("../controllers/transactions/transactionController");
+const {
+  markNotification,
+} = require("../controllers/user_notifications/notificationsController");
 
 router.get("/profile/info", userInfo);
 
@@ -22,5 +25,6 @@ router.post("/billing", billing);
 router.post("/profile/security", configureSecurity);
 router.post("/refresh-token", getRefreshToken);
 router.post("/transaction", authenticateTransaction);
+router.post("/notifications", markNotification);
 
 module.exports = router;
