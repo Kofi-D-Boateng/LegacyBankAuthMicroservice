@@ -6,7 +6,6 @@ const markNotification = async (req, res) => {
   const TOKEN = await req.get("authorization");
   const { msgID } = req.body;
   const CHECK = await _verify(TOKEN);
-  console.log(typeof true);
 
   if (!CHECK) {
     res.status(401).json("");
@@ -27,7 +26,9 @@ const markNotification = async (req, res) => {
 
   try {
     fetchMarkMessage(CHECK.user, msgID);
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 module.exports = { markNotification };
