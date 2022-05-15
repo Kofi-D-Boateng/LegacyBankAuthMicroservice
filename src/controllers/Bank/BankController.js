@@ -1,10 +1,10 @@
 "use strict";
 const axios = require("axios").default;
-const { description } = require("../../config/configurations");
+const { _config } = require("../../config/configurations");
 const getBankInfo = async (req, res) => {
   try {
     const fetchInfo = await axios.get(
-      `http://localhost:${description.dest[0]}/api/${description.version}/bank/info`
+      `${_config.domain.bank_api_domain}:${_config.dest.bank_api_port}/api/${_config.version}/bank/info`
     );
 
     const BANK = {

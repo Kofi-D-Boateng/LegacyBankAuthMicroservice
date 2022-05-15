@@ -4,10 +4,9 @@ require("dotenv").config();
 const express = require("express");
 const logger = require("morgan");
 const limiter = require("express-rate-limit");
-const { description } = require("./config/configurations");
+const { _config } = require("./config/configurations");
 
 const app = express();
-const PORT = 8081;
 
 // ROUTE DEPENDENCIES
 const AUTH = require("./routes/authentication");
@@ -15,7 +14,7 @@ const BANK = require("./routes/bank");
 
 // WHITELIST
 const WHITELIST = {
-  origin: "*" || process.env.ORIGINS,
+  origin: _config.cors_allow_origins,
   credentials: true,
   optionSuccessStatus: 200,
 };
@@ -34,8 +33,8 @@ app.use(logger("dev"));
 app.use(express.json());
 
 // ROUTES
-app.use(`/api/${description.version}/${description.purpose[0]}`, AUTH);
-app.use(`/api/${description.version}/${description.purpose[1]}`, BANK);
-app.listen(PORT | process.env, (err) => {
-  if (!err) console.log(`Port running on port: ${PORT}`);
+app.use(`/api/${_config.version}/${_config.purpose[0]}`, AUTH);
+app.use(`/api/${_config.version}/${_config.purpose[1]}`, BANK);
+app.listen(_config.app_port, (err) => {
+  if (!err) console.log(`Port running on port: ${_config.app_port}`);
 });

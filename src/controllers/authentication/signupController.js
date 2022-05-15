@@ -1,7 +1,6 @@
 "use strict";
 const axios = require("axios").default;
-const { DatabaseError } = require("pg/lib");
-const { description } = require("../../config/configurations");
+const { _config } = require("../../config/configurations");
 
 const userSignup = async (req, res) => {
   const PARAMS = {
@@ -19,18 +18,21 @@ const userSignup = async (req, res) => {
 
   const fetchRegistration = async (params) => {
     const REQUEST = await axios.post(
-      `http://localhost:${description.dest[0]}/api/${description.version}/authentication/registration`,
+      `${_config.domain.bank_api_domain}:${_config.dest.bank_api_port}/api/${_config.version}/authentication/registration`,
       params
     );
     const TOKEN = REQUEST.data;
     if (TOKEN && typeof TOKEN === "string") {
-      await axios.post(`http://localhost:5500/verification/send-email`, {
-        token: TOKEN,
-        person: {
-          name: PARAMS.firstName + " " + PARAMS.lastName,
-          email: PARAMS.email,
-        },
-      });
+      await axios.post(
+        `${_config.domain.messenger_api_domain}:${_config.dest.messenger_api_port}/verification/send-email`,
+        {
+          token: TOKEN,
+          person: {
+            name: PARAMS.firstName + " " + PARAMS.lastName,
+            email: PARAMS.email,
+          },
+        }
+      );
       res.status(200).json({ isSaved: true });
     }
   };
@@ -40,8 +42,8 @@ const userSignup = async (req, res) => {
     const ERRORMSG = error.response.data["message"];
     if (ERRORMSG.includes("is taken")) {
       res.status(401).json(ERRORMSG);
+      return;
     }
-
     res.status(400);
   }
 };

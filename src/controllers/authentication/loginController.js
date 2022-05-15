@@ -1,12 +1,10 @@
 "use strict";
 const bcrypt = require("bcrypt");
 const { _sign } = require("../../utils/jwtConfig");
-const { _config, description } = require("../../config/configurations");
+const { _config } = require("../../config/configurations");
 const axios = require("axios").default;
 
 const userLogin = async (req, res) => {
-  const USERAGENT = await req.get("User-Agent");
-
   const CREDENTIALS = {
     email: req.body.email ? req.body.email : undefined,
     password: req.body.password ? req.body.password : undefined,
@@ -24,7 +22,7 @@ const userLogin = async (req, res) => {
 
   const fetchData = async (credentials) => {
     const REQUEST = await axios.post(
-      `http://localhost:${description.dest[0]}/api/${description.version}/authentication/login`,
+      `${_config.domain.bank_api_domain}:${_config.dest.bank_api_port}/api/${_config.version}/authentication/login`,
       credentials
     );
 

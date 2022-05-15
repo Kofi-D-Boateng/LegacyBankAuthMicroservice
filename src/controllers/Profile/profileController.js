@@ -1,5 +1,5 @@
 "use strict";
-const { description } = require("../../config/configurations");
+const { _config } = require("../../config/configurations");
 const { _verify } = require("../../utils/jwtConfig");
 const axios = require("axios").default;
 
@@ -20,18 +20,18 @@ const userInfo = async (req, res) => {
   try {
     console.log(CHECK.user);
     const fetchInfo = await axios.get(
-      `http://localhost:${description.dest[0]}/api/${description.version}/customer/profile`,
+      `${_config.domain.bank_api_domain}:${_config.dest.bank_api_port}/api/${_config.version}/customer/profile`,
       { params: { username: CHECK.user } }
     );
     const fetchNotifications = await axios.get(
-      `http://localhost:${description.dest[1]}/user/notifications/`,
+      `${_config.domain.messenger_api_domain}:${_config.dest.messenger_api_port}/api/v1/user/notifications/`,
       { params: { email: CHECK.user } }
     );
     console.log(fetchNotifications.data);
     const USER = await fetchInfo.data;
     const notifications = await fetchNotifications.data;
     if (USER.customerRole !== "USER") {
-      res.status(401);
+      res.status(401).json("");
       return;
     }
     res.status(200).json({
@@ -50,10 +50,10 @@ const userInfo = async (req, res) => {
       notis: notifications ? notifications : undefined,
     });
   } catch (error) {
+    console.log(error);
     res.status(401).json({
       isAuthorized: false,
     });
-    console.log(error);
   }
 };
 

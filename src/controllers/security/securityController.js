@@ -1,5 +1,5 @@
 "use strict";
-const { description } = require("../../config/configurations");
+const { _config } = require("../../config/configurations");
 const { _verify } = require("../../utils/jwtConfig");
 const axios = require("axios").default;
 
@@ -20,7 +20,7 @@ const configureSecurity = async (req, res) => {
   }
   const fetchSecurity = async (SECURITY) => {
     const fetch = await axios.post(
-      `${description.domain}:${description.dest[0]}/api/${description.version}/customer/security`,
+      `${_config.domain.bank_api_domain}:${_config.dest.bank_api_port}/api/${_config.version}/customer/security`,
       SECURITY
     );
     console.log(fetch.status);

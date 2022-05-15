@@ -1,5 +1,5 @@
 const axios = require("axios").default;
-const { description } = require("../../config/configurations");
+const { _config } = require("../../config/configurations");
 const { _verify } = require("../../utils/jwtConfig");
 
 const markNotification = async (req, res) => {
@@ -13,7 +13,7 @@ const markNotification = async (req, res) => {
 
   const fetchMarkMessage = async (email, msg_id) => {
     const fetch = await axios.post(
-      `http://localhost:${description.dest[1]}/user/notifications/mark-notification`,
+      `${_config.domain.messenger_api_domain}:${_config.dest.messenger_api_port}/user/notifications/mark-notification`,
       { email: email, msg_id: msg_id }
     );
     console.log(fetch.data);
