@@ -1,7 +1,7 @@
 "use-strict";
 const crypto = require("crypto");
 
-// UPDATE URI @ 4/21/2022 by Kofi Boateng
+// UPDATED URI @ 5/14/2022 by Kofi Boateng
 const _config = {
   createdBy: "Kofi Boateng",
 

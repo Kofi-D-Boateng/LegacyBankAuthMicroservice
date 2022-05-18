@@ -13,7 +13,7 @@ const markNotification = async (req, res) => {
 
   const fetchMarkMessage = async (email, msg_id) => {
     const fetch = await axios.post(
-      `${_config.domain.messenger_api_domain}:${_config.dest.messenger_api_port}/user/notifications/mark-notification`,
+      `${_config.domain.messenger_api_domain}:${_config.dest.messenger_api_port}/api/v1/user/notifications/mark-notification`,
       { email: email, msg_id: msg_id }
     );
     console.log(fetch.data);
@@ -25,7 +25,7 @@ const markNotification = async (req, res) => {
   };
 
   try {
-    fetchMarkMessage(CHECK.user, msgID);
+    await fetchMarkMessage(CHECK.user, msgID);
   } catch (error) {
     console.log(error);
   }

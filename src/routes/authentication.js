@@ -1,5 +1,8 @@
 "use-strict";
 const router = require("express").Router();
+const {
+  confirmAccount,
+} = require("../controllers/authentication/confirmAccountController");
 const { userLogin } = require("../controllers/authentication/loginController");
 const getRefreshToken = require("../controllers/authentication/refreshTokenController");
 const {
@@ -18,6 +21,7 @@ const {
 } = require("../controllers/user_notifications/notificationsController");
 
 router.get("/profile/info", userInfo);
+router.get("/confirm-account/:token", confirmAccount);
 
 router.post("/registration", userSignup);
 router.post("/login", userLogin);

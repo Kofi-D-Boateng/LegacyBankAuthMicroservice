@@ -1,6 +1,8 @@
 FROM node:16.6-alpine
 
-WORKDIR /usr/lb-auth
+RUN mkdir -p /lb-auth
+
+WORKDIR /lb-auth
 
 COPY package*.json ./
 
