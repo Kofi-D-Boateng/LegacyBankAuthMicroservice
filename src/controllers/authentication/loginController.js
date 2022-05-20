@@ -1,8 +1,8 @@
 "use strict";
-const bcrypt = require("bcrypt");
-const { _sign } = require("../../utils/jwtConfig");
-const { _config } = require("../../config/configurations");
-const axios = require("axios").default;
+import { compare } from "bcrypt";
+import { _sign } from "../../utils/jwtConfig.js";
+import _config from "../../config/configurations.js";
+import axios from "axios";
 
 const userLogin = async (req, res) => {
   const CREDENTIALS = {
@@ -22,14 +22,11 @@ const userLogin = async (req, res) => {
 
   const fetchData = async (credentials) => {
     const REQUEST = await axios.post(
-      `${_config.domain.bank_api_domain}:${_config.dest.bank_api_port}/api/${_config.version}/authentication/login`,
+      `${_config.DOMAIN.bank_api_domain}:${_config.PORT.bank_api_port}/${_config.API_VERSION}/${_config.PATH.USER_PATH.LOGIN}`,
       credentials
     );
 
-    const PWCHECK = await bcrypt.compare(
-      CREDENTIALS.password,
-      REQUEST.data.password
-    );
+    const PWCHECK = await compare(CREDENTIALS.password, REQUEST.data.password);
     if (!PWCHECK) {
       res.status(401);
       return;
@@ -51,4 +48,4 @@ const userLogin = async (req, res) => {
   }
 };
 
-module.exports = { userLogin };
+export default userLogin;

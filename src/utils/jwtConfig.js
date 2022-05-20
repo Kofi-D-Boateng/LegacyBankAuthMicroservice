@@ -1,7 +1,6 @@
 "use strict";
-const jwt = require("jsonwebtoken");
-require("dotenv").config;
-const { _config } = require("../config/configurations");
+import jwt from "jsonwebtoken";
+import _config from "../config/configurations.js";
 
 const _sign = async (email) => {
   const PAYLOAD = {
@@ -27,4 +26,4 @@ const _verify = async (token) => {
   }
 };
 
-module.exports = { _sign, _verify };
+export { _sign, _verify };

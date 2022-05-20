@@ -1,6 +1,6 @@
 "use strict";
-const axios = require("axios").default;
-const { _config } = require("../../config/configurations");
+import axios from "axios";
+import _config from "../../config/configurations.js";
 
 const userSignup = async (req, res) => {
   const PARAMS = {
@@ -18,13 +18,13 @@ const userSignup = async (req, res) => {
 
   const fetchRegistration = async (params) => {
     const REQUEST = await axios.post(
-      `${_config.domain.bank_api_domain}:${_config.dest.bank_api_port}/api/${_config.version}/authentication/registration`,
+      `${_config.DOMAIN.bank_api_domain}:${_config.PORT.bank_api_port}/${_config.API_VERSION}/${_config.PATH.USER_PATH.SIGNUP}`,
       params
     );
     const TOKEN = REQUEST.data;
     if (TOKEN && typeof TOKEN === "string") {
       await axios.post(
-        `${_config.domain.messenger_api_domain}:${_config.dest.messenger_api_port}/verification/send-email`,
+        `${_config.DOMAIN.notifications_api_domain}:${_config.PORT.notifications_api_port}/${_config.API_VERSION}/${_config.PATH.NOTI_PATH.VERIFICATION}`,
         {
           token: TOKEN,
           person: {
@@ -53,4 +53,4 @@ const getConfirmationToken = async (req, res) => {
   console.log(TOKEN);
 };
 
-module.exports = { userSignup, getConfirmationToken };
+export { userSignup, getConfirmationToken };

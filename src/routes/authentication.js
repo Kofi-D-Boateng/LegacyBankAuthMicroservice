@@ -1,23 +1,21 @@
 "use-strict";
-const router = require("express").Router();
-const { userLogin } = require("../controllers/authentication/loginController");
-const getRefreshToken = require("../controllers/authentication/refreshTokenController");
-const {
+import express from "express";
+import confirmAccount from "../controllers/authentication/confirmAccountController.js";
+import userLogin from "../controllers/authentication/loginController.js";
+import billing from "../controllers/billing/billingController.js";
+import configureSecurity from "../controllers/security/securityController.js";
+import getRefreshToken from "../controllers/authentication/refreshTokenController.js";
+import userInfo from "../controllers/Profile/profileController.js";
+import {
   userSignup,
-} = require("../controllers/authentication/signupController");
-const { billing } = require("../controllers/billing/billingController");
-const { userInfo } = require("../controllers/Profile/profileController");
-const {
-  configureSecurity,
-} = require("../controllers/security/securityController");
-const {
-  authenticateTransaction,
-} = require("../controllers/transactions/transactionController");
-const {
-  markNotification,
-} = require("../controllers/user_notifications/notificationsController");
+  getConfirmationToken,
+} from "../controllers/authentication/signupController.js";
+import authenticateTransaction from "../controllers/transactions/transactionController.js";
+import markNotification from "../controllers/user_notifications/notificationsController.js";
+const router = express.Router();
 
 router.get("/profile/info", userInfo);
+router.get("/confirm-account/:token", confirmAccount);
 
 router.post("/registration", userSignup);
 router.post("/login", userLogin);
@@ -27,4 +25,4 @@ router.post("/refresh-token", getRefreshToken);
 router.post("/transaction", authenticateTransaction);
 router.post("/notifications", markNotification);
 
-module.exports = router;
+export default router;
