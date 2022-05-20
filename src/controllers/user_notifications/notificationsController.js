@@ -1,6 +1,7 @@
-const axios = require("axios").default;
-const { _config } = require("../../config/configurations");
-const { _verify } = require("../../utils/jwtConfig");
+"use strict";
+import axios from "axios";
+import _config from "../../config/configurations.js";
+import { _verify } from "../../utils/jwtConfig.js";
 
 const markNotification = async (req, res) => {
   const TOKEN = await req.get("authorization");
@@ -13,7 +14,7 @@ const markNotification = async (req, res) => {
 
   const fetchMarkMessage = async (email, msg_id) => {
     const fetch = await axios.post(
-      `${_config.domain.messenger_api_domain}:${_config.dest.messenger_api_port}/api/v1/user/notifications/mark-notification`,
+      `${_config.DOMAIN.notifications_api_domain}:${_config.PORT.notifications_api_port}/${_config.API_VERSION}/${_config.PATH.USER_PATH.MARK_NOTIFICATION}`,
       { email: email, msg_id: msg_id }
     );
     console.log(fetch.data);
@@ -31,4 +32,4 @@ const markNotification = async (req, res) => {
   }
 };
 
-module.exports = { markNotification };
+export default markNotification;

@@ -1,7 +1,8 @@
 "use-strict";
-const router = require("express").Router();
-const { getBankInfo } = require("../controllers/Bank/BankController");
+import express from "express";
+import getBankInfo from "../controllers/Bank/BankController.js";
+const router = express.Router();
 
 router.get("/info", getBankInfo);
 
-module.exports = router;
+export default router;

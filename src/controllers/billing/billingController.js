@@ -1,5 +1,6 @@
 "use strict";
-const { _verify } = require("../../utils/jwtConfig");
+import _config from "../../config/configurations.js";
+import { _verify } from "../../utils/jwtConfig.js";
 
 const billing = async (req, res) => {
   const { choice } = req.body;
@@ -20,4 +21,4 @@ const billing = async (req, res) => {
   }
 };
 
-module.exports = { billing };
+export default billing;

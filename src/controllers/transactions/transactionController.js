@@ -1,7 +1,7 @@
 "use strict";
-const { _config } = require("../../config/configurations");
-const { _verify } = require("../../utils/jwtConfig");
-const axios = require("axios").default;
+import axios from "axios";
+import _config from "../../config/configurations.js";
+import { _verify } from "../../utils/jwtConfig.js";
 
 const authenticateTransaction = async (req, res) => {
   const ds = new Date();
@@ -44,7 +44,7 @@ const authenticateTransaction = async (req, res) => {
       if (TRANSACTION.location.trim().length === 5) {
         console.log("ATM TIME!!!");
         const ATM = await axios.post(
-          `${_config.domain.bank_api_domain}:${_config.dest.bank_api_port}/api/${_config.version}/secure/transaction/atm-transaction`,
+          `${_config.DOMAIN.bank_api_domain}:${_config.PORT.bank_api_port}/${_config.API_VERSION}/${_config.PATH.USER_PATH.ATM_TRANSACTION}`,
           TRANSACTION
         );
         res.status(200).json(ATM.data);
@@ -52,7 +52,7 @@ const authenticateTransaction = async (req, res) => {
       }
 
       const vendorTransfer = await axios.post(
-        `${_config.domain.bank_api_domain}:${_config.dest.bank_api_port}/api/${_config.version}/secure/transaction/vendor-transfer`,
+        `${_config.DOMAIN.bank_api_domain}:${_config.PORT.bank_api_port}/${_config.API_VERSION}/${_config.PATH.USER_PATH.VENDOR_TRANSACTION}`,
         TRANSACTION
       );
 
@@ -69,13 +69,13 @@ const authenticateTransaction = async (req, res) => {
         return;
       }
       const userTransfer = await axios.post(
-        `${_config.domain.bank_api_domain}:${_config.dest.bank_api_port}/api/${_config.version}/secure/transaction/account-transfer`,
+        `${_config.DOMAIN.bank_api_domain}:${_config.PORT.bank_api_port}/${_config.API_VERSION}/${_config.PATH.USER_PATH.USER_TRASNFER}`,
         TRANSACTION
       );
       console.log(userTransfer.data);
 
       const setNotification = await axios.post(
-        `${_config.domain.messenger_api_domain}:${_config.dest.messenger_api_port}/api/v1/user/notifications/set-notifications`,
+        `${_config.DOMAIN.notifications_api_domain}:${_config.POST.notifications_api_port}/${_config.API_VERSION}/${_config.PATH.USER_PATH.CREATE_NOTIFICATION}`,
         userTransfer.data
       );
       res.status(200).json(setNotification.data);
@@ -86,4 +86,4 @@ const authenticateTransaction = async (req, res) => {
   }
 };
 
-module.exports = { authenticateTransaction };
+export default authenticateTransaction;
