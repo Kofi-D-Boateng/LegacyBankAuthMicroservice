@@ -42,7 +42,7 @@ const _config = {
   },
   REDIS_HOST: process.env.REDIS_CACHE_IP,
   REDIS_PORT: process.env.REDIS_CACHE_PORT,
-  purpose: ["authentication", "bank"],
+  PURPOSE: ["authentication", "bank", "logout"],
 
   algorithm: process.env.JWT_ALGO,
 

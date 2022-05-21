@@ -7,8 +7,9 @@ import _config from "./config/configurations.js";
 const app = express();
 
 // ROUTE DEPENDENCIES
-import AUTH from "./routes/authentication.js";
-import BANK from "./routes/bank.js";
+import AUTH from "./routes/authentication/authentication.js";
+import BANK from "./routes/bank/bank.js";
+import LOGOUT from "./routes/logout/logout.js";
 
 // WHITELIST
 const WHITELIST = {
@@ -31,8 +32,10 @@ app.use(logger("dev"));
 app.use(express.json());
 
 // ROUTES
-app.use(`/${_config.API_VERSION}/${_config.purpose[0]}`, AUTH);
-app.use(`/${_config.API_VERSION}/${_config.purpose[1]}`, BANK);
+app.use(`/${_config.API_VERSION}/${_config.PURPOSE[0]}`, AUTH);
+app.use(`/${_config.API_VERSION}/${_config.PURPOSE[1]}`, BANK);
+app.use(`/${_config.API_VERSION}/${_config.PURPOSE[2]}`, LOGOUT);
+
 app.listen(_config.APP_PORT, (err) => {
   if (!err) console.log(`Port running on port: ${_config.APP_PORT}`);
 });
