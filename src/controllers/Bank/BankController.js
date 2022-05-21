@@ -4,8 +4,7 @@ import { _getBankInfo } from "../../utils/redisCache.js";
 
 const getBankInfo = async (req, res) => {
   const KEY = "LB";
-  const CACHE = await _getBankInfo(KEY);
-  const fetchedInfo = await JSON.parse(CACHE);
+  const fetchedInfo = await _getBankInfo(KEY);
   const BANK = {
     name: fetchedInfo.name,
     country: fetchedInfo.country,

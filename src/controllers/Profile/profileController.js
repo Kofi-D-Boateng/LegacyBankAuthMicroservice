@@ -1,5 +1,4 @@
 "use strict";
-import axios from "axios";
 import _config from "../../config/configurations.js";
 import { _verify } from "../../utils/jwtConfig.js";
 import { _getUserInfo } from "../../utils/redisCache.js";
@@ -28,19 +27,17 @@ const userInfo = async (req, res) => {
   }
 
   res.status(200).json({
-    fName: USER.firstName,
-    lName: USER.lastName,
-    email: USER.email,
-    country: USER.country,
-    state: USER.state,
-    accountNum: USER.accountNumber,
-    routingNum: USER.routingNumber,
-    funds: parseFloat(USER.capital.toFixed(2)),
-    transactions: USER.transactions,
-    zipCode: USER.zipcode,
-    isLocked: USER.locked,
-    isEnabled: USER.enabled,
-    notis: notifications ? notifications : undefined,
+    fName: USER.info.firstName,
+    lName: USER.info.lastName,
+    email: USER.info.email,
+    country: USER.info.country,
+    state: USER.info.state,
+    accountNum: USER.info.accountNumber,
+    routingNum: USER.info.routingNumber,
+    funds: parseFloat(USER.info.capital.toFixed(2)),
+    transactions: USER.info.transactions,
+    zipCode: USER.info.zipcode,
+    notis: USER.noti ? USER.noti : undefined,
   });
 };
 
