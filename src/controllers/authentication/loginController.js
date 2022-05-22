@@ -25,7 +25,6 @@ const userLogin = async (req, res) => {
       `${_config.DOMAIN.bank_api_domain}:${_config.PORT.bank_api_port}/${_config.API_VERSION}/${_config.PATH.USER_PATH.LOGIN}`,
       credentials
     );
-
     const PWCHECK = await compare(CREDENTIALS.password, REQUEST.data.password);
     if (!PWCHECK) {
       res.status(401);
@@ -38,6 +37,8 @@ const userLogin = async (req, res) => {
       firstName: REQUEST.data.firstName,
       lastName: REQUEST.data.lastName,
       email: REQUEST.data.email,
+      isLocked: REQUEST.data.locked,
+      isEnabled: REQUEST.data.enbaled,
     });
   };
   try {

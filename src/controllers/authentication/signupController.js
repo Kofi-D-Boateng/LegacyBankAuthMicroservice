@@ -48,9 +48,4 @@ const userSignup = async (req, res) => {
   }
 };
 
-const getConfirmationToken = async (req, res) => {
-  const TOKEN = req.params["token"];
-  console.log(TOKEN);
-};
-
-export { userSignup, getConfirmationToken };
+export default userSignup;

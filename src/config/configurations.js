@@ -28,6 +28,8 @@ const _config = {
     BANK_PATH: {
       FETCH_INFO: "bank/info",
       FETCH_CUSTOMER: "customer/profile",
+      VERIFY_ACCOUNT: "authentication/token-confirmation",
+      GENERATE_TOKEN: "authentication/get-new-token",
     },
     USER_PATH: {
       SECURITY: "customer/security",
@@ -42,7 +44,7 @@ const _config = {
   },
   REDIS_HOST: process.env.REDIS_CACHE_IP,
   REDIS_PORT: process.env.REDIS_CACHE_PORT,
-  purpose: ["authentication", "bank"],
+  PURPOSE: ["authentication", "bank", "logout"],
 
   algorithm: process.env.JWT_ALGO,
 
