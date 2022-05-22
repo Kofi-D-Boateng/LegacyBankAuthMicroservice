@@ -15,7 +15,7 @@ import markNotification from "../../controllers/user_notifications/notifications
 const router = express.Router();
 
 router.get("/profile/info", userInfo);
-router.get("/confirm-account/:token", confirmAccount);
+router.get("/confirm-account", confirmAccount);
 
 router.post("/registration", userSignup);
 router.post("/login", userLogin);
