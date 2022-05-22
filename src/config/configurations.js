@@ -29,6 +29,7 @@ const _config = {
       FETCH_INFO: "bank/info",
       FETCH_CUSTOMER: "customer/profile",
       VERIFY_ACCOUNT: "authentication/token-confirmation",
+      GENERATE_TOKEN: "authentication/get-new-token",
     },
     USER_PATH: {
       SECURITY: "customer/security",
