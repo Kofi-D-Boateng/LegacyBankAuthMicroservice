@@ -1,4 +1,4 @@
-## Legacy Banking's Authentication & Authorization microservices
+# Legacy Banking's Authentication & Authorization microservices
 
 # Project
 This source code comprises the authentication architecure for legacy backend. When containerized, this node will connect to every network overlay to allow for authenticaiton of end point interactions within our enterpise. This node can be added to more microservices for A&A services in the future.
