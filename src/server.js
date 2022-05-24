@@ -13,7 +13,7 @@ import LOGOUT from "./routes/logout/logout.js";
 
 // WHITELIST
 const WHITELIST = {
-  origin: _config.cors_allow_origins,
+  origin: _config.CORS_ALLOW_ORIGINS,
   credentials: true,
   optionSuccessStatus: 200,
 };

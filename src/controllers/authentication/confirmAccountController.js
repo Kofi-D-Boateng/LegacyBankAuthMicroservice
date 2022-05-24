@@ -12,7 +12,7 @@ const confirmAccount = async (req, res) => {
     if (RESULT.status >= 200 || RESULT.status <= 299) {
       res.status(RESULT.status).json(RESULT.data);
     } else {
-      res.status(400).json("");
+      res.status(400).json();
     }
   } catch (error) {
     console.log(error);
@@ -22,13 +22,13 @@ const confirmAccount = async (req, res) => {
 const newVerificationLink = async (req, res) => {
   const TOKEN = req.body.token;
   if (typeof TOKEN !== "string") {
-    res.status(400).json("");
+    res.status(400).json();
     return;
   }
 
   const CHECK = await _verify(TOKEN);
   if (!CHECK) {
-    res.status(401).json("");
+    res.status(401).json();
     return;
   }
 
@@ -51,7 +51,7 @@ const newVerificationLink = async (req, res) => {
     res.status(200);
   } catch (error) {
     console.log(error);
-    res.status(401).json("");
+    res.status(401).json();
   }
 };
 

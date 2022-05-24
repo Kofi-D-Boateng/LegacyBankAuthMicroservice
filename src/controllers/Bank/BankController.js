@@ -17,7 +17,7 @@ const getBankInfo = async (req, res) => {
     res.status(200).json(BANK);
     return;
   }
-  res.status(404).json("");
+  res.status(404).json();
 };
 
 export default getBankInfo;

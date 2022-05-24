@@ -46,15 +46,15 @@ const _config = {
   REDIS_PORT: process.env.REDIS_CACHE_PORT,
   PURPOSE: ["authentication", "bank", "logout"],
 
-  algorithm: process.env.JWT_ALGO,
+  ALGORITHM: process.env.JWT_ALGO,
 
-  secret: "LegacyBank" + randomBytes(16).toString("base64"),
+  SECRET: "LegacyBank" + randomBytes(16).toString("base64"),
 
-  iss: "Legacy Bank",
+  ISS: "Legacy Bank",
 
-  expiresIn: process.env.JWT_EXPIRES_IN,
+  EXPIRESIN: process.env.JWT_EXPIRES_IN,
 
-  cors_allow_origins: process.env.CORS_ALLOW_ORIGINS || "*",
+  CORS_ALLOW_ORIGINS: process.env.CORS_ALLOW_ORIGINS || "*",
 };
 
 export default _config;

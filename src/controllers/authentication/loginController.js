@@ -16,7 +16,7 @@ const userLogin = async (req, res) => {
     CREDENTIALS.email.trim().length === 0 ||
     CREDENTIALS.password.trim().length === 0
   ) {
-    res.status(401);
+    res.status(401).json();
     return;
   }
 
@@ -27,16 +27,13 @@ const userLogin = async (req, res) => {
     );
     const PWCHECK = await compare(CREDENTIALS.password, REQUEST.data.password);
     if (!PWCHECK) {
-      res.status(401);
+      res.status(401).json();
       return;
     }
     const TOKEN = await _sign(REQUEST.data.email);
     res.status(200).json({
       token: TOKEN,
-      expiresIn: _config.expiresIn,
-      firstName: REQUEST.data.firstName,
-      lastName: REQUEST.data.lastName,
-      email: REQUEST.data.email,
+      expiresIn: +_config.EXPIRESIN,
       isLocked: REQUEST.data.locked,
       isEnabled: REQUEST.data.enbaled,
     });
@@ -44,8 +41,9 @@ const userLogin = async (req, res) => {
   try {
     await fetchData(CREDENTIALS);
   } catch (error) {
-    console.log(error);
-    res.status(401);
+    const err = error.response.data["message"];
+    console.log(err + " for " + CREDENTIALS.email);
+    res.status(401).json();
   }
 };
 

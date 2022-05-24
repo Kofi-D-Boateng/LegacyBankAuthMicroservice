@@ -5,18 +5,18 @@ import _config from "../config/configurations.js";
 const _sign = async (email) => {
   const PAYLOAD = {
     user: email,
-    iss: _config.iss,
+    iss: _config.ISS,
   };
-  return jwt.sign(PAYLOAD, _config.secret, {
-    algorithm: _config.algorithm,
-    expiresIn: _config.expiresIn,
+  return jwt.sign(PAYLOAD, _config.SECRET, {
+    algorithm: _config.ALGORITHM,
+    expiresIn: _config.EXPIRESIN,
   });
 };
 
 const _verify = async (token) => {
   try {
-    const TOKENCHECK = jwt.verify(token, _config.secret, {
-      algorithms: _config.algorithm,
+    const TOKENCHECK = jwt.verify(token, _config.SECRET, {
+      algorithms: _config.ALGORITHM,
     });
     return TOKENCHECK;
   } catch (e) {

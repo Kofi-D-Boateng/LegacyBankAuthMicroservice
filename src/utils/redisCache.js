@@ -21,7 +21,6 @@ const _getBankInfo = async (KEY) => {
       const NOTIS = await axios.get(
         `${_config.DOMAIN.bank_api_domain}:${_config.PORT.bank_api_port}/${_config.API_VERSION}/${_config.PATH.BANK_PATH.FETCH_INFO}`
       );
-      console.log(NOTIS.data);
       await CLIENT.set(KEY, JSON.stringify(NOTIS.data));
       return NOTIS.data;
     }
@@ -57,7 +56,7 @@ const _getUserInfo = async (EMAIL) => {
     }
     return JSON.parse(USER);
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
     return [];
   }
 };

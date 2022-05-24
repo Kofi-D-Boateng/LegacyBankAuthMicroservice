@@ -16,12 +16,12 @@ const router = express.Router();
 
 router.get("/profile/info", userInfo);
 router.get("/confirm-account", confirmAccount);
+router.get("/get-refresh-token", getRefreshToken);
 
 router.post("/registration", userSignup);
 router.post("/login", userLogin);
 router.post("/billing", billing);
 router.post("/profile/security", configureSecurity);
-router.post("/refresh-token", getRefreshToken);
 router.post("/transaction", authenticateTransaction);
 router.post("/notifications", markNotification);
 router.post("/new-verification-link", newVerificationLink);

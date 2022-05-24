@@ -9,7 +9,7 @@ const userInfo = async (req, res) => {
   const IP = req.socket.remoteAddress;
 
   if (typeof TOKEN !== "string" || !TOKEN) {
-    res.status(401);
+    res.status(401).json();
     return;
   }
 
@@ -22,7 +22,7 @@ const userInfo = async (req, res) => {
 
   const USER = await _getUserInfo(CHECK.user);
   if (!USER) {
-    res.status(401).json("");
+    res.status(401).json();
     return;
   }
 

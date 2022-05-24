@@ -41,7 +41,7 @@ const userSignup = async (req, res) => {
   } catch (error) {
     const ERRORMSG = error.response.data["message"];
     if (ERRORMSG.includes("is taken")) {
-      res.status(401).json(ERRORMSG);
+      res.status(401).json();
       return;
     }
     res.status(400);
