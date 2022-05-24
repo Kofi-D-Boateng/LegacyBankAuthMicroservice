@@ -38,7 +38,7 @@ const authenticateTransaction = async (req, res) => {
   try {
     if (!PC || USERAGENT.match(/Postman/i)) {
       if (!CHECK) {
-        res.status(401).json("");
+        res.status(401).json();
       }
       if (TRANSACTION.location.trim().length === 5) {
         const ATM = await axios.post(
@@ -60,7 +60,7 @@ const authenticateTransaction = async (req, res) => {
 
     if (PC || ORIGIN === "localhost:3000" || USERAGENT.match(/Postman/i)) {
       if (typeof TOKEN !== "string" || !TOKEN) {
-        res.status(401);
+        res.status(401).json();
         return;
       }
 
@@ -78,7 +78,7 @@ const authenticateTransaction = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(400);
+    res.status(400).json();
   }
 };
 

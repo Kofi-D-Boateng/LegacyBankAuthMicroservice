@@ -9,7 +9,7 @@ const markNotification = async (req, res) => {
   const CHECK = await _verify(TOKEN);
 
   if (!CHECK) {
-    res.status(401).json("");
+    res.status(401).json();
   }
 
   const fetchMarkMessage = async (email, msg_id) => {
@@ -28,7 +28,7 @@ const markNotification = async (req, res) => {
   try {
     await fetchMarkMessage(CHECK.user, msgID);
   } catch (error) {
-    console.log(error);
+    console.log(error.response.data.message);
   }
 };
 

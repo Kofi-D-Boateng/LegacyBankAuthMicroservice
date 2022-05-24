@@ -18,7 +18,7 @@ const configureSecurity = async (req, res) => {
 
   const PC = await USERAGENT.match(/Macintosh|Windows|Linux|X11|/i);
   if (!PC || !CHECK) {
-    res.status(401);
+    res.status(401).json();
   }
 
   const fetchSecurity = async (SECURITY) => {
@@ -26,13 +26,13 @@ const configureSecurity = async (req, res) => {
       `${_config.DOMAIN.bank_api_domain}:${_config.PORT.bank_api_port}/${_config.API_VERSION}/${_config.PATH.USER_PATH.SECURITY}`,
       SECURITY
     );
-    res.status(fetch.status).json("");
+    res.status(fetch.status).json();
   };
 
   try {
     fetchSecurity(SECURITY);
   } catch (error) {
-    res.status(404).json("");
+    res.status(404).json();
   }
 };
 
