@@ -18,6 +18,8 @@ const userInfo = async (req, res) => {
       state: USER.info.state,
       accountNum: USER.info.accountNumber,
       routingNum: USER.info.routingNumber,
+      isEnabled: USER.info.enabled,
+      isLocked: USER.info.locked,
       funds: parseFloat(USER.info.capital.toFixed(2)),
       transactions: USER.info.transactions,
       zipCode: USER.info.zipcode,
