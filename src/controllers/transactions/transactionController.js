@@ -9,7 +9,6 @@ const authenticateTransaction = async (req, res) => {
   const TOKEN = await req.get("authorization");
   const ORIGIN = await req.get("Origin");
   const USERAGENT = await req.get("User-Agent");
-  const IP = req.socket.remoteAddress;
   const PC = await USERAGENT.match(/Macintosh|Windows|Linux|X11|/i);
   const CHECK = await _verify(TOKEN);
   const TRANSACTION = {
@@ -70,7 +69,7 @@ const authenticateTransaction = async (req, res) => {
       );
 
       const setNotification = await axios.post(
-        `${_config.DOMAIN.notifications_api_domain}:${_config.POST.notifications_api_port}/${_config.API_VERSION}/${_config.PATH.USER_PATH.CREATE_NOTIFICATION}`,
+        `${_config.DOMAIN.notifications_api_domain}:${_config.PORT.notifications_api_port}/${_config.API_VERSION}/${_config.PATH.USER_PATH.CREATE_NOTIFICATION}`,
         userTransfer.data
       );
       await _flushUser(CHECK.user);

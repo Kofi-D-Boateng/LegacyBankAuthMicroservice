@@ -5,8 +5,7 @@ import { _getUserInfo } from "../../utils/redisCache.js";
 
 const userInfo = async (req, res) => {
   const TOKEN = await req.get("authorization");
-  const ORIGIN = await req.get("Origin");
-  const IP = (await req.get("x-forwarded-for")) || req.socket.remoteAddress;
+
   try {
     const CHECK = await _verify(TOKEN);
     const USER = await _getUserInfo(CHECK.user);
