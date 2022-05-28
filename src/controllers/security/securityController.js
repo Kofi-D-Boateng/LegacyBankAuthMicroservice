@@ -26,7 +26,7 @@ const configureSecurity = async (req, res) => {
       `${_config.DOMAIN.bank_api_domain}:${_config.PORT.bank_api_port}/${_config.API_VERSION}/${_config.PATH.USER_PATH.SECURITY}`,
       SECURITY
     );
-    await _flushUser(CHECK.user);
+    await _flushUser([CHECK.user]);
     res.status(fetch.status).json();
   };
 

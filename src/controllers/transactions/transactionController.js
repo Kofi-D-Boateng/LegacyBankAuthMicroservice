@@ -44,8 +44,8 @@ const authenticateTransaction = async (req, res) => {
           `${_config.DOMAIN.bank_api_domain}:${_config.PORT.bank_api_port}/${_config.API_VERSION}/${_config.PATH.USER_PATH.ATM_TRANSACTION}`,
           TRANSACTION
         );
-        await _flushUser([CHECK.user, TRANSACTION.emailOfTransferee]);
         res.status(200).json(ATM.data);
+        await _flushUser([CHECK.user]);
         return;
       }
 
@@ -53,8 +53,9 @@ const authenticateTransaction = async (req, res) => {
         `${_config.DOMAIN.bank_api_domain}:${_config.PORT.bank_api_port}/${_config.API_VERSION}/${_config.PATH.USER_PATH.VENDOR_TRANSACTION}`,
         TRANSACTION
       );
-      await _flushUser(CHECK.user);
-      return res.status(200).json(vendorTransfer.data);
+      res.status(200).json(vendorTransfer.data);
+      await _flushUser([CHECK.user]);
+      return;
     }
 
     if (PC || ORIGIN === "localhost:3000" || USERAGENT.match(/Postman/i)) {
@@ -72,8 +73,8 @@ const authenticateTransaction = async (req, res) => {
         `${_config.DOMAIN.notifications_api_domain}:${_config.PORT.notifications_api_port}/${_config.API_VERSION}/${_config.PATH.USER_PATH.CREATE_NOTIFICATION}`,
         userTransfer.data
       );
-      await _flushUser(CHECK.user);
       res.status(200).json(setNotification.data);
+      await _flushUser([CHECK.user, TRANSACTION.emailOfTransferee]);
     }
   } catch (error) {
     console.log(error);

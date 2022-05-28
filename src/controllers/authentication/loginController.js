@@ -3,6 +3,7 @@ import { compare } from "bcrypt";
 import { _sign } from "../../utils/jwtConfig.js";
 import _config from "../../config/configurations.js";
 import axios from "axios";
+import { _flushUser } from "../../utils/redisCache.js";
 
 const userLogin = async (req, res) => {
   const CREDENTIALS = {
@@ -37,6 +38,7 @@ const userLogin = async (req, res) => {
       isLocked: REQUEST.data.locked,
       isEnabled: REQUEST.data.enabled,
     });
+    await _flushUser([CREDENTIALS.email]);
   };
   try {
     await fetchData(CREDENTIALS);
