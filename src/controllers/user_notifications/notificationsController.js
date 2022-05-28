@@ -17,9 +17,8 @@ const markNotification = async (req, res) => {
       `${_config.DOMAIN.notifications_api_domain}:${_config.PORT.notifications_api_port}/${_config.API_VERSION}/${_config.PATH.USER_PATH.MARK_NOTIFICATION}`,
       { email: email, msg_id: msg_id }
     );
-    console.log(fetch.data);
     if (!fetch.data) {
-      res.status(401).json(undefined);
+      res.status(401).json();
       return;
     }
     res.status(200).json({ notis: fetch.data });
@@ -29,6 +28,7 @@ const markNotification = async (req, res) => {
     await fetchMarkMessage(CHECK.user, msgID);
   } catch (error) {
     console.log(error.response.data.message);
+    res.status(400).json();
   }
 };
 

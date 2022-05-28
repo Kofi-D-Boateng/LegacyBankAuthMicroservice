@@ -5,9 +5,12 @@ import CLIENT from "../config/redis/redis-cache.js";
 
 const _flushUser = async (KEY) => {
   try {
-    const USER = await CLIENT.GET(KEY);
-    if (USER) {
-      await CLIENT.DEL(KEY);
+    let i = 0;
+    while (i < KEY.length) {
+      const USER = await CLIENT.GET(KEY[i]);
+      if (USER) {
+        await CLIENT.DEL(KEY[i]);
+      }
     }
   } catch (error) {
     console.log(error);
