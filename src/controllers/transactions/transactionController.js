@@ -40,7 +40,7 @@ const authenticateTransaction = async (req, res) => {
         res.status(401).json();
       }
       if (TRANSACTION.location.trim().length === 5) {
-        const ATM = await axios.post(
+        const ATM = await axios.put(
           `${_config.DOMAIN.bank_api_domain}:${_config.PORT.bank_api_port}/${_config.API_VERSION}/${_config.PATH.USER_PATH.ATM_TRANSACTION}`,
           TRANSACTION
         );
@@ -49,7 +49,7 @@ const authenticateTransaction = async (req, res) => {
         return;
       }
 
-      const vendorTransfer = await axios.post(
+      const vendorTransfer = await axios.put(
         `${_config.DOMAIN.bank_api_domain}:${_config.PORT.bank_api_port}/${_config.API_VERSION}/${_config.PATH.USER_PATH.VENDOR_TRANSACTION}`,
         TRANSACTION
       );
@@ -64,12 +64,12 @@ const authenticateTransaction = async (req, res) => {
         return;
       }
 
-      const userTransfer = await axios.post(
+      const userTransfer = await axios.put(
         `${_config.DOMAIN.bank_api_domain}:${_config.PORT.bank_api_port}/${_config.API_VERSION}/${_config.PATH.USER_PATH.USER_TRASNFER}`,
         TRANSACTION
       );
 
-      const setNotification = await axios.post(
+      const setNotification = await axios.put(
         `${_config.DOMAIN.notifications_api_domain}:${_config.PORT.notifications_api_port}/${_config.API_VERSION}/${_config.PATH.USER_PATH.CREATE_NOTIFICATION}`,
         userTransfer.data
       );

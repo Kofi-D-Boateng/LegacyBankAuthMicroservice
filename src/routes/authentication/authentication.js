@@ -21,9 +21,10 @@ router.get("/get-refresh-token", getRefreshToken);
 router.post("/registration", userSignup);
 router.post("/login", userLogin);
 router.post("/billing", billing);
-router.post("/profile/security", configureSecurity);
-router.post("/transaction", authenticateTransaction);
-router.post("/notifications", markNotification);
 router.post("/new-verification-link", newVerificationLink);
+
+router.put("/profile/security", configureSecurity);
+router.put("/transaction", authenticateTransaction);
+router.put("/notifications", markNotification);
 
 export default router;
