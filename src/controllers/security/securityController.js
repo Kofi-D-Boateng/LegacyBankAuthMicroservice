@@ -22,7 +22,7 @@ const configureSecurity = async (req, res) => {
   }
 
   const fetchSecurity = async (SECURITY) => {
-    const fetch = await axios.post(
+    const fetch = await axios.put(
       `${_config.DOMAIN.bank_api_domain}:${_config.PORT.bank_api_port}/${_config.API_VERSION}/${_config.PATH.USER_PATH.SECURITY}`,
       SECURITY
     );

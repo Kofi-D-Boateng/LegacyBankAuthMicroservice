@@ -13,7 +13,7 @@ const _flushUser = async (KEY) => {
       }
     }
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
 };
 

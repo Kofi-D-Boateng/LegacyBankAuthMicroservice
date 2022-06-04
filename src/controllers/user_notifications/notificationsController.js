@@ -13,7 +13,7 @@ const markNotification = async (req, res) => {
   }
 
   const fetchMarkMessage = async (email, msg_id) => {
-    const fetch = await axios.post(
+    const fetch = await axios.put(
       `${_config.DOMAIN.notifications_api_domain}:${_config.PORT.notifications_api_port}/${_config.API_VERSION}/${_config.PATH.USER_PATH.MARK_NOTIFICATION}`,
       { email: email, msg_id: msg_id }
     );

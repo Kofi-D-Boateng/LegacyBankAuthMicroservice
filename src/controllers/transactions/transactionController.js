@@ -7,7 +7,6 @@ import { _flushUser } from "../../utils/redisCache.js";
 const authenticateTransaction = async (req, res) => {
   const ds = new Date();
   const TOKEN = await req.get("authorization");
-  const ORIGIN = await req.get("Origin");
   const USERAGENT = await req.get("User-Agent");
   const PC = await USERAGENT.match(/Macintosh|Windows|Linux|X11|/i);
   const CHECK = await _verify(TOKEN);
@@ -38,9 +37,10 @@ const authenticateTransaction = async (req, res) => {
     if (!PC || USERAGENT.match(/Postman/i)) {
       if (!CHECK) {
         res.status(401).json();
+        return;
       }
       if (TRANSACTION.location.trim().length === 5) {
-        const ATM = await axios.post(
+        const ATM = await axios.put(
           `${_config.DOMAIN.bank_api_domain}:${_config.PORT.bank_api_port}/${_config.API_VERSION}/${_config.PATH.USER_PATH.ATM_TRANSACTION}`,
           TRANSACTION
         );
@@ -49,7 +49,7 @@ const authenticateTransaction = async (req, res) => {
         return;
       }
 
-      const vendorTransfer = await axios.post(
+      const vendorTransfer = await axios.put(
         `${_config.DOMAIN.bank_api_domain}:${_config.PORT.bank_api_port}/${_config.API_VERSION}/${_config.PATH.USER_PATH.VENDOR_TRANSACTION}`,
         TRANSACTION
       );
@@ -58,18 +58,18 @@ const authenticateTransaction = async (req, res) => {
       return;
     }
 
-    if (PC || ORIGIN === "localhost:3000" || USERAGENT.match(/Postman/i)) {
+    if (PC || USERAGENT.match(/Postman/i)) {
       if (typeof TOKEN !== "string" || !TOKEN) {
         res.status(401).json();
         return;
       }
 
-      const userTransfer = await axios.post(
+      const userTransfer = await axios.put(
         `${_config.DOMAIN.bank_api_domain}:${_config.PORT.bank_api_port}/${_config.API_VERSION}/${_config.PATH.USER_PATH.USER_TRASNFER}`,
         TRANSACTION
       );
 
-      const setNotification = await axios.post(
+      const setNotification = await axios.put(
         `${_config.DOMAIN.notifications_api_domain}:${_config.PORT.notifications_api_port}/${_config.API_VERSION}/${_config.PATH.USER_PATH.CREATE_NOTIFICATION}`,
         userTransfer.data
       );
@@ -77,7 +77,7 @@ const authenticateTransaction = async (req, res) => {
       await _flushUser([CHECK.user, TRANSACTION.emailOfTransferee]);
     }
   } catch (error) {
-    console.log(error);
+    console.log(error.message || error.response.data["message"]);
     res.status(400).json();
   }
 };
