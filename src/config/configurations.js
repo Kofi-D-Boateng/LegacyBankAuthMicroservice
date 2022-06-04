@@ -10,19 +10,17 @@ const _config = {
   APP_PORT: process.env.AUTH_PORT,
 
   DOMAIN: {
-    bank_api_domain: process.env.LB_BANK_API_DOMAIN || "http://localhost",
-    notifications_api_domain:
-      process.env.LB_NOTIFICATIONS_API_DOMAIN || "http://localhost",
+    bank_api_domain: process.env.LB_BANK_API_DOMAIN,
+    notifications_api_domain: process.env.LB_NOTIFICATIONS_API_DOMAIN,
   },
   PORT: {
-    bank_api_port: process.env.LB_BANK_API_PORT || 8080,
-    notifications_api_port: process.env.LB_NOTIFICATIONS_API_PORT || 5500,
+    bank_api_port: process.env.LB_BANK_API_PORT,
+    notifications_api_port: process.env.LB_NOTIFICATIONS_API_PORT,
   },
   API_VERSION: "api/v1",
   PATH: {
     NOTI_PATH: {
       FETCH_NOTIS: "user/notifications",
-      MARK_NOTI: "",
       VERIFICATION: "verification/send-email",
     },
     BANK_PATH: {
@@ -54,7 +52,7 @@ const _config = {
 
   EXPIRESIN: process.env.JWT_EXPIRES_IN,
 
-  CORS_ALLOW_ORIGINS: process.env.CORS_ALLOW_ORIGINS || "*",
+  CORS_ALLOW_ORIGINS: process.env.CORS_ALLOW_ORIGINS,
 };
 
 export default _config;

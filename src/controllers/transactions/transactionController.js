@@ -7,7 +7,6 @@ import { _flushUser } from "../../utils/redisCache.js";
 const authenticateTransaction = async (req, res) => {
   const ds = new Date();
   const TOKEN = await req.get("authorization");
-  const ORIGIN = await req.get("Origin");
   const USERAGENT = await req.get("User-Agent");
   const PC = await USERAGENT.match(/Macintosh|Windows|Linux|X11|/i);
   const CHECK = await _verify(TOKEN);
@@ -38,6 +37,7 @@ const authenticateTransaction = async (req, res) => {
     if (!PC || USERAGENT.match(/Postman/i)) {
       if (!CHECK) {
         res.status(401).json();
+        return;
       }
       if (TRANSACTION.location.trim().length === 5) {
         const ATM = await axios.put(
@@ -58,7 +58,7 @@ const authenticateTransaction = async (req, res) => {
       return;
     }
 
-    if (PC || ORIGIN === "localhost:3000" || USERAGENT.match(/Postman/i)) {
+    if (PC || USERAGENT.match(/Postman/i)) {
       if (typeof TOKEN !== "string" || !TOKEN) {
         res.status(401).json();
         return;
@@ -77,7 +77,7 @@ const authenticateTransaction = async (req, res) => {
       await _flushUser([CHECK.user, TRANSACTION.emailOfTransferee]);
     }
   } catch (error) {
-    console.log(error);
+    console.log(error.message || error.response.data["message"]);
     res.status(400).json();
   }
 };
