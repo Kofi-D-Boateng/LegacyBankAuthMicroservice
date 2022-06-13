@@ -22,7 +22,7 @@ const userInfo = async (req, res) => {
       funds: parseFloat(USER.info.capital.toFixed(2)),
       transactions: USER.info.transactions,
       zipCode: USER.info.zipcode,
-      notis: USER.noti ? USER.noti : undefined,
+      notis: USER.noti || [],
     });
   } catch (error) {
     console.log(error.message);

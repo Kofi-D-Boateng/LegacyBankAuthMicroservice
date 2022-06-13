@@ -1,7 +1,7 @@
 "use-strict";
 import { randomBytes } from "crypto";
 
-// UPDATED URI @ 5/14/2022 by Kofi Boateng
+// UPDATED URI @ 6/12/2022 by Kofi Boateng
 const _config = {
   createdBy: "Kofi Boateng",
 
@@ -11,17 +11,16 @@ const _config = {
 
   DOMAIN: {
     bank_api_domain: process.env.LB_BANK_API_DOMAIN,
-    notifications_api_domain: process.env.LB_NOTIFICATIONS_API_DOMAIN,
+    notifications_api_domain: process.env.LB_NOTI_API_DOMAIN,
   },
   PORT: {
     bank_api_port: process.env.LB_BANK_API_PORT,
-    notifications_api_port: process.env.LB_NOTIFICATIONS_API_PORT,
+    notifications_api_port: process.env.LB_NOTI_API_PORT,
   },
   API_VERSION: "api/v1",
   PATH: {
     NOTI_PATH: {
-      FETCH_NOTIS: "user/notifications",
-      VERIFICATION: "verification/send-email",
+      FETCH_NOTIS: "user/",
     },
     BANK_PATH: {
       FETCH_INFO: "bank/info",
@@ -34,8 +33,8 @@ const _config = {
       ATM_TRANSACTION: "secure/transaction/atm-transaction",
       VENDOR_TRANSACTION: "secure/transaction/vendor-transaction",
       USER_TRASNFER: "secure/transaction/account-transfer",
-      CREATE_NOTIFICATION: "user/notifications/set-notifications",
-      MARK_NOTIFICATION: "user/notifications/mark-notification",
+      CREATE_NOTIFICATION: "user/set-notifications",
+      MARK_NOTIFICATION: "user/mark-notification",
       LOGIN: "authentication/login",
       SIGNUP: "authentication/registration",
     },

@@ -50,7 +50,7 @@ const _getUserInfo = async (EMAIL) => {
         { params: { username: EMAIL } }
       );
       const NEWUSER = {
-        noti: NOTIS.data,
+        noti: NOTIS.data.notifications,
         info: USERINFO.data,
       };
 
