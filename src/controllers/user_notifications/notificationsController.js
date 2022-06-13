@@ -21,13 +21,13 @@ const markNotification = async (req, res) => {
       res.status(401).json();
       return;
     }
-    res.status(200).json({ notis: fetch.data });
+    res.status(200).json({ notis: fetch.data.notifications });
   };
 
   try {
     await fetchMarkMessage(CHECK.user, msgID);
   } catch (error) {
-    console.log(error.response.data.message);
+    console.log(error.message);
     res.status(400).json();
   }
 };

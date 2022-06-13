@@ -2,7 +2,6 @@
 import "dotenv/config.js";
 import express from "express";
 import logger from "morgan";
-import { rateLimit } from "express-rate-limit";
 import _config from "./config/configurations.js";
 const app = express();
 
