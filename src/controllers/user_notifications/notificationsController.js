@@ -2,6 +2,7 @@
 import axios from "axios";
 import _config from "../../config/configurations.js";
 import { _verify } from "../../utils/jwtConfig.js";
+import { _flushUser } from "../../utils/redisCache.js";
 
 const markNotification = async (req, res) => {
   const TOKEN = await req.get("authorization");
@@ -21,6 +22,7 @@ const markNotification = async (req, res) => {
       res.status(401).json();
       return;
     }
+    await _flushUser(CHECK.key);
     res.status(200).json({ notis: fetch.data.notifications });
   };
 

@@ -1,7 +1,7 @@
 "use-strict";
 import { randomBytes } from "crypto";
 
-// UPDATED URI @ 6/12/2022 by Kofi Boateng
+// UPDATED URI @ 6/17/2022 by Kofi Boateng
 const _config = {
   createdBy: "Kofi Boateng",
 
@@ -46,6 +46,8 @@ const _config = {
   ALGORITHM: process.env.JWT_ALGO,
 
   SECRET: "LegacyBank" + randomBytes(16).toString("base64"),
+
+  KEY_ENCODE_TYPE: process.env.ENCODE_TYPE || "hex",
 
   ISS: "Legacy Bank",
 

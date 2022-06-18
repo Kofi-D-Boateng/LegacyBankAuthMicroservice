@@ -45,7 +45,7 @@ const authenticateTransaction = async (req, res) => {
           TRANSACTION
         );
         res.status(200).json(ATM.data);
-        await _flushUser([CHECK.user]);
+        await _flushUser(CHECK.key);
         return;
       }
 
@@ -54,7 +54,7 @@ const authenticateTransaction = async (req, res) => {
         TRANSACTION
       );
       res.status(200).json(vendorTransfer.data);
-      await _flushUser([CHECK.user]);
+      await _flushUser(CHECK.key);
       return;
     }
 
@@ -74,7 +74,7 @@ const authenticateTransaction = async (req, res) => {
         userTransfer.data
       );
       res.status(200).json(setNotification.data);
-      await _flushUser([CHECK.user, TRANSACTION.emailOfTransferee]);
+      await _flushUser(CHECK.key);
     }
   } catch (error) {
     console.log(error.message || error.response.data["message"]);

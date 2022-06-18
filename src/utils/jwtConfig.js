@@ -1,10 +1,12 @@
 "use strict";
 import jwt from "jsonwebtoken";
 import _config from "../config/configurations.js";
+import { randomBytes } from "crypto";
 
 const _sign = async (email) => {
   const PAYLOAD = {
     user: email,
+    key: randomBytes(10).toString(_config.KEY_ENCODE_TYPE),
     iss: _config.ISS,
   };
   return jwt.sign(PAYLOAD, _config.SECRET, {
