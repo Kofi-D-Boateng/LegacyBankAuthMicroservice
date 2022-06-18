@@ -38,7 +38,7 @@ const userLogin = async (req, res) => {
       isLocked: REQUEST.data.locked,
       isEnabled: REQUEST.data.enabled,
     });
-    await _flushUser([CREDENTIALS.email]);
+    await _flushUser(TOKEN.key);
   };
   try {
     await fetchData(CREDENTIALS);

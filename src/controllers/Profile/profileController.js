@@ -8,7 +8,7 @@ const userInfo = async (req, res) => {
 
   try {
     const CHECK = await _verify(TOKEN);
-    const USER = await _getUserInfo(CHECK.user);
+    const USER = await _getUserInfo(CHECK.key, CHECK.user);
     res.status(200).json({
       fName: USER.info.firstName,
       lName: USER.info.lastName,
