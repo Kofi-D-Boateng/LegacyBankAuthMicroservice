@@ -43,13 +43,9 @@ const userLogin = async (req, res) => {
   try {
     await fetchData(CREDENTIALS);
   } catch (error) {
-    const err = error.response.data["message"];
-    console.log(err + " for " + CREDENTIALS.email);
-    if (err.includes("Could not open JPA EntityManager for transaction;")) {
-      res.status(404).json();
-    } else {
-      res.status(401).json();
-    }
+    const err = error.response.data["message"] || error.message;
+    console.log("ERROR: " + err);
+    res.status(401).json();
   }
 };
 
