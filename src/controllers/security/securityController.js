@@ -33,6 +33,7 @@ const configureSecurity = async (req, res) => {
   try {
     fetchSecurity(SECURITY);
   } catch (error) {
+    console.log(error.message);
     res.status(400).json();
   }
 };

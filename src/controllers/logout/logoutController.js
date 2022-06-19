@@ -8,7 +8,7 @@ const logoutUser = async (req, res) => {
     res.status(401).json();
     return;
   }
-  await _flushUser([CHECK.user]);
+  await _flushUser(CHECK.user);
   res.status(200).json();
 };
 
