@@ -21,12 +21,14 @@ const userSignup = async (req, res) => {
       `${_config.DOMAIN.bank_api_domain}:${_config.PORT.bank_api_port}/${_config.API_VERSION}/${_config.PATH.USER_PATH.SIGNUP}`,
       params
     );
+
     if (REQUEST.data["message"]) {
       throw new Error(REQUEST.data["message"]);
     }
+
     const TOKEN = REQUEST.data;
     if (TOKEN && typeof TOKEN === "string") {
-      await axios.post(
+      const SENDEMAIL = await axios.post(
         `${_config.DOMAIN.notifications_api_domain}:${_config.PORT.notifications_api_port}/${_config.API_VERSION}/${_config.PATH.NOTI_PATH.VERIFICATION}`,
         {
           token: TOKEN,
@@ -36,6 +38,10 @@ const userSignup = async (req, res) => {
           },
         }
       );
+
+      if (SENDEMAIL.data["message"]) {
+        throw new Error(SENDEMAIL.data["message"]);
+      }
 
       res.status(200).json({ isSaved: true });
     }

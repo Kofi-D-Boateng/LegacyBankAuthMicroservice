@@ -21,6 +21,7 @@ const _config = {
   PATH: {
     NOTI_PATH: {
       FETCH_NOTIS: "user/",
+      VERIFICATION: "verification/send-email",
     },
     BANK_PATH: {
       FETCH_INFO: "bank/info",
