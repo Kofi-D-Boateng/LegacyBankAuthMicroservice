@@ -50,7 +50,7 @@ const newVerificationLink = async (req, res) => {
     );
     res.status(200);
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
     res.status(401).json();
   }
 };

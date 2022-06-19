@@ -21,6 +21,9 @@ const userSignup = async (req, res) => {
       `${_config.DOMAIN.bank_api_domain}:${_config.PORT.bank_api_port}/${_config.API_VERSION}/${_config.PATH.USER_PATH.SIGNUP}`,
       params
     );
+    if (REQUEST.data["message"]) {
+      throw new Error(REQUEST.data["message"]);
+    }
     const TOKEN = REQUEST.data;
     if (TOKEN && typeof TOKEN === "string") {
       await axios.post(
@@ -33,18 +36,19 @@ const userSignup = async (req, res) => {
           },
         }
       );
+
       res.status(200).json({ isSaved: true });
     }
   };
   try {
     await fetchRegistration(PARAMS);
   } catch (error) {
-    const ERRORMSG = error.response.data["message"];
+    const ERRORMSG = error.message;
     if (ERRORMSG.includes("is taken")) {
       res.status(401).json();
       return;
     }
-    res.status(400);
+    res.status(400).json();
   }
 };
 
