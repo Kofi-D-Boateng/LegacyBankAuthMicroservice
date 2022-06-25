@@ -1,7 +1,7 @@
 "use-strict";
 import { randomBytes } from "crypto";
 
-// UPDATED URI @ 6/19/2022 by Kofi Boateng
+// UPDATED URI @ 6/25/2022 by Kofi Boateng
 const _config = {
   createdBy: "Kofi Boateng",
 
@@ -40,7 +40,7 @@ const _config = {
       SIGNUP: "authentication/registration",
     },
   },
-  REDIS_HOST: process.env.REDIS_CACHE_IP,
+  REDIS_HOST: process.env.REDIS_CACHE_DOMAIN,
   REDIS_PORT: process.env.REDIS_CACHE_PORT,
   PURPOSE: ["authentication", "bank", "logout"],
 
