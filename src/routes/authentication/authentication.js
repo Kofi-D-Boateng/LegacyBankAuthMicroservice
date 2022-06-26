@@ -20,10 +20,10 @@ router.get("/get-refresh-token", getRefreshToken);
 
 router.post("/registration", userSignup);
 router.post("/login", userLogin);
-router.post("/billing", billing);
 router.post("/new-verification-link", newVerificationLink);
 
 router.put("/profile/security", configureSecurity);
+router.put("/billing", billing);
 router.put("/transaction", authenticateTransaction);
 router.put("/notifications", markNotification);
 
